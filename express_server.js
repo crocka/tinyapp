@@ -12,9 +12,9 @@ const urlDatabase = {
   "9sm5xK": "http://www.google.com"
 };
 
-app.get("/", (req, res) => {
-  res.send("Hello!");
-});
+// app.get("/", (req, res) => {
+//   res.send("Hello!");
+// });
 
 app.get("/urls", (req, res) => {
   res.render("urls_index", {urls: urlDatabase});
@@ -24,9 +24,9 @@ app.get("/urls/new", (req, res) => {
   res.render("urls_new");
 });
 
-app.get("/hello", (req, res) => {
-  res.send("<html><body>Hello <b>World</b></body></html>\n");
-});
+// app.get("/hello", (req, res) => {
+//   res.send("<html><body>Hello <b>World</b></body></html>\n");
+// });
 
 app.get("/u/:shorturl", (req, res) => {
   console.log(urlDatabase)
@@ -42,9 +42,21 @@ app.post("/urls", (req, res) => {
   console.log(shortURL)
   urlDatabase[shortURL] = req.body.longURL;
   
-  res.redirect(`/u/${shortURL}`);       // Respond with 'Ok' (we will replace this)
+  res.redirect(`/u/${shortURL}`);
   
 });
+
+app.post('/urls/:shortURL/delete', (req, res) => {
+
+  console.log(req);
+  const shortURL = req.params.shortURL;
+
+  delete urlDatabase[shortURL];
+  
+  res.redirect('/urls');
+});
+
+
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
