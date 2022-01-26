@@ -12,25 +12,23 @@ app.use(cookieParser());
 const users = require('./data/users.json');
 const urlDatabase = require('./data/urlDatabase.json');
 
-let username = undefined;
-
 app.get("/urls", (req, res) => {
   res.render("urls_index", {urls: urlDatabase, users});
 });
 
 app.get("/urls/new", (req, res) => {
-  res.render("urls_new",{username:username});
+  res.render("urls_new",{users});
 });
 
 app.get("/u/:shorturl", (req, res) => {
   console.log(urlDatabase)
-  const templateVars = { username: username, shortURL: req.params.shorturl, longURL: urlDatabase[req.params.shorturl]};
+  const templateVars = { users, shortURL: req.params.shorturl, longURL: urlDatabase[req.params.shorturl]};
   res.render("urls_show", templateVars);
 });
 
 app.get('/register', (req, res) => {
 
-  res.render('register',{username});
+  res.render('register',{users});
 
 });
 
@@ -70,8 +68,10 @@ app.post('/urls/:shortURL/delete', (req, res) => {
 
 app.post('/login', (req, res) => {
 
-  const user = findUserByEmail(email);
+  const user = findUserByEmail(req.body.email);
 
+  console.log(users);
+  console.log(req.body.email);
   if(!req.body.email || !req.body.password) {
 
     return res.status(400).send('Please enter your email and password.');

@@ -13,10 +13,10 @@
       </div>
     </div>
 
-    <% if(user[id]){ %>
+    <% if(users['id']){ %>
 
       <a class="nav-item nav-link"><form method="POST" action='/logout' class="float-right">
-        <label for="username">Logged in as: <%=user[id]%> </label>
+        <label for="username">Logged in as: <%=users['id']['email']%> </label>
         <button class="btn btn-outline-dark me-2">Logout</button>
       </form></a>
 
