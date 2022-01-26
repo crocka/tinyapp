@@ -13,22 +13,23 @@
       </div>
     </div>
 
-    <% if(username){ %>
+    <% if(user[id]){ %>
 
       <a class="nav-item nav-link"><form method="POST" action='/logout' class="float-right">
-        <label for="username">Logged in as: <%=username%> </label>
+        <label for="username">Logged in as: <%=user[id]%> </label>
         <button class="btn btn-outline-dark me-2">Logout</button>
       </form></a>
 
     <% } else{ %>  
 
-      <a class="nav-item nav-link"> <form method="POST" action='/login' class="float-right">
-
-        <label for="username">Login:</label>
-        <input type="text" name="username" style="width: 300px;">
-        <button class="btn btn-outline-dark me-2">Submit</button>
-      
-      </form></a>
+      <a class="nav-item nav-link">  
+        <form method="GET" action='/login' class="float-right">
+          <button class="btn btn-outline-dark me-2">Login</button>
+        </form>
+        <form method="GET" action='/register' class="float-right">
+          <button class="btn btn-outline-dark me-2">Register</button>
+        </form>
+     </a>
       
    <% } %>
   </nav>
