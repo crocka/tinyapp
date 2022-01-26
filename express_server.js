@@ -13,28 +13,28 @@ const users = require('./data/users.json');
 const urlDatabase = require('./data/urlDatabase.json');
 
 app.get("/urls", (req, res) => {
-  res.render("urls_index", {urls: urlDatabase, users});
+  res.render("urls_index", {urls: urlDatabase, users, cookies: req.cookies});
 });
 
 app.get("/urls/new", (req, res) => {
-  res.render("urls_new",{users});
+  res.render("urls_new",{users, cookies: req.cookies});
 });
 
 app.get("/u/:shorturl", (req, res) => {
   console.log(urlDatabase)
-  const templateVars = { users, shortURL: req.params.shorturl, longURL: urlDatabase[req.params.shorturl]};
+  const templateVars = { users, shortURL: req.params.shorturl, longURL: urlDatabase[req.params.shorturl], cookies: req.cookies};
   res.render("urls_show", templateVars);
 });
 
 app.get('/register', (req, res) => {
 
-  res.render('register',{users});
+  res.render('register',{users, cookies: req.cookies});
 
 });
 
 app.get('/login', (req, res) => {
 
-  res.render('login');
+  res.render('login',{users, cookies: req.cookies});
 
 });
 
@@ -42,7 +42,7 @@ app.post("/urls", (req, res) => {
 
   let shortURL = generateRandomString();
   console.log(req.body); 
-  console.log(shortURL)
+  console.log(shortURL);
   urlDatabase[shortURL] = req.body.longURL;
   
   res.redirect(`/u/${shortURL}`);
@@ -78,16 +78,17 @@ app.post('/login', (req, res) => {
 
   } else if(!user) {
 
-    return res.status(400).send("Email not found. Please create a new account.");
+    return res.status(403).send("Email not found. Please create a new account.");
     
   } else if(req.body.password !== user.password) {
 
-    return res.status(400).send('Your password does not match our record. Please try again.')
+    return res.status(403).send('Your password does not match our record. Please try again.')
+
   }
 
 
   res.cookie('user_id', user.id);
-  res.render("urls_index", {users, urls : urlDatabase});
+  res.redirect('/urls');
 
 });
 
@@ -109,7 +110,7 @@ app.post('/register', (req, res) => {
 
     if(users[id]['email'] === newEmail) {
       
-      return res.status(400).send("The email is already registered, please login.");
+      return res.status(403).send("The email is already registered, please login.");
       
     } 
 
@@ -134,7 +135,7 @@ app.post('/register', (req, res) => {
 
   console.log(users);
 
-  res.redirect('/urls');
+  res.redirect('login');
 
 });
 

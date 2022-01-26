@@ -13,10 +13,10 @@
       </div>
     </div>
 
-    <% if(users['id']){ %>
+    <% if(cookies.user_id){ %>
 
       <a class="nav-item nav-link"><form method="POST" action='/logout' class="float-right">
-        <label for="username">Logged in as: <%=users['id']['email']%> </label>
+        <label for="userEmail">Logged in as: <%=users[cookies.user_id]['email']%> </label>
         <button class="btn btn-outline-dark me-2">Logout</button>
       </form></a>
 
