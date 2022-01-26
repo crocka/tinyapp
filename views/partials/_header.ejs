@@ -6,16 +6,37 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
-        <a class="nav-item nav-link" href="/urls">My URLs</a>
-        <a class="nav-item nav-link" href="/urls/new">Create New URL</a>
-        <a class="nav-item nav-link"> <form method="POST" action='/login'>
-
-          <label for="username">Login:</label>
-          <input type="text" name="username" style="width: 300px; margin: 0">
-          <button class="btn btn-primary">Submit</button>
-        
-        </form></a>
+        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+          <a class="nav-item nav-link" href="/urls">My URLs</a>
+          <a class="nav-item nav-link" href="/urls/new">Create New URL</a>
+        </ul>
       </div>
     </div>
+
+    <% if(username){ %>
+
+      <a class="nav-item nav-link"><form method="POST" action='/logout' class="float-right">
+        <label for="username">Logged in as: <%=username%> </label>
+        <button class="btn btn-outline-dark me-2">Logout</button>
+      </form></a>
+
+    <% } else{ %>  
+
+      <a class="nav-item nav-link"> <form method="POST" action='/login' class="float-right">
+
+        <label for="username">Login:</label>
+        <input type="text" name="username" style="width: 300px;">
+        <button class="btn btn-outline-dark me-2">Submit</button>
+      
+      </form></a>
+      
+   <% } %>
   </nav>
 </header>
+<ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+  <li><a href="#" class="nav-link px-2 text-secondary">Home</a></li>
+  <li><a href="#" class="nav-link px-2 text-white">Features</a></li>
+  <li><a href="#" class="nav-link px-2 text-white">Pricing</a></li>
+  <li><a href="#" class="nav-link px-2 text-white">FAQs</a></li>
+  <li><a href="#" class="nav-link px-2 text-white">About</a></li>
+</ul>
