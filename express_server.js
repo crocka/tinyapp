@@ -106,6 +106,12 @@ app.post('/register', (req, res) => {
 
   let newEmail = req.body.email;
 
+  if (!req.body.email || !req.body.password){
+
+    return res.status(400).send("Please fill out both your email and password.");
+
+  }
+
   for (let id in users) {
 
     if(users[id]['email'] === newEmail) {
@@ -126,10 +132,6 @@ app.post('/register', (req, res) => {
       "password" : req.body.password
 
     }
-
-  } else if (!req.body.email || !req.body.password){
-
-    return res.status(400).send("Please fill out both your email and password.")
 
   }
 
