@@ -30,6 +30,11 @@ app.get("/u/:shorturl", (req, res) => {
   res.render("urls_show", templateVars);
 });
 
+app.get('/register', (req, res) => {
+
+  res.render('register',{username});
+});
+
 app.post("/urls", (req, res) => {
 
   let shortURL = generateRandomString();
