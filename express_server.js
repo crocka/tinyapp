@@ -22,7 +22,7 @@ app.get("/urls/new", (req, res) => {
 
 app.get("/u/:shorturl", (req, res) => {
   console.log(urlDatabase)
-  const templateVars = { users, shortURL: req.params.shorturl, longURL: urlDatabase[req.params.shorturl], cookies: req.cookies};
+  const templateVars = { users, shortURL: req.params.shorturl, longURL: urlDatabase[req.params.shorturl]['longURL'], cookies: req.cookies};
   res.render("urls_show", templateVars);
 });
 
@@ -41,9 +41,11 @@ app.get('/login', (req, res) => {
 app.post("/urls", (req, res) => {
 
   let shortURL = generateRandomString();
-  console.log(req.body); 
-  console.log(shortURL);
-  urlDatabase[shortURL] = req.body.longURL;
+  // console.log(req.body); 
+  // console.log(shortURL);
+  urlDatabase[shortURL] = {};
+  urlDatabase[shortURL]['longURL'] = req.body.longURL;
+  urlDatabase[shortURL]['userID'] = req.cookies.user_id;
   
   res.redirect(`/u/${shortURL}`);
   
@@ -51,7 +53,7 @@ app.post("/urls", (req, res) => {
 
 app.post('/u/:shortURL/update', (req, res) => {
 
-  urlDatabase[req.params.shortURL] = req.body.longURL;
+  urlDatabase[req.params.shortURL]['longURL'] = req.body.longURL;
   
   res.redirect('/urls');
 
