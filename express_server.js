@@ -20,10 +20,19 @@ app.get("/urls/new", (req, res) => {
   res.render("urls_new",{users, cookies: req.cookies});
 });
 
-app.get("/u/:shorturl", (req, res) => {
+app.get("/urls/:shorturl", (req, res) => {
   console.log(urlDatabase)
   const templateVars = { users, shortURL: req.params.shorturl, longURL: urlDatabase[req.params.shorturl]['longURL'], cookies: req.cookies};
   res.render("urls_show", templateVars);
+});
+
+app.get('/u/:shorturl', (req, res) => {
+
+  const shorturl = req.params.shorturl;
+  console.log(shorturl+'hello');
+  console.log(urlDatabase);
+  res.redirect(`${urlDatabase[shorturl]['longURL']}`);
+
 });
 
 app.get('/register', (req, res) => {
@@ -47,11 +56,11 @@ app.post("/urls", (req, res) => {
   urlDatabase[shortURL]['longURL'] = req.body.longURL;
   urlDatabase[shortURL]['userID'] = req.cookies.user_id;
   
-  res.redirect(`/u/${shortURL}`);
+  res.redirect(`/urls/${shortURL}`);
   
 });
 
-app.post('/u/:shortURL/update', (req, res) => {
+app.post('/urls/:shortURL/update', (req, res) => {
 
   urlDatabase[req.params.shortURL]['longURL'] = req.body.longURL;
   
