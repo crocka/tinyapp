@@ -1,6 +1,9 @@
 const express = require("express");
 const app = express();
+const bcrypt = require('bcryptjs');
 const PORT = 8080; // default port 8080
+
+const salt = bcrypt.genSaltSync(10);
 
 app.set("view engine", "ejs");
 
@@ -91,7 +94,7 @@ app.post('/login', (req, res) => {
 
     return res.status(403).send("Email not found. Please create a new account.");
     
-  } else if(req.body.password !== user.password) {
+  } else if(!bcrypt.compareSync(req.body.password, user.password)) {
 
     return res.status(403).send('Your password does not match our record. Please try again.')
 
@@ -140,7 +143,7 @@ app.post('/register', (req, res) => {
 
       "id" : newId,
       "email" : newEmail,
-      "password" : req.body.password
+      "password" : bcrypt.hashSync(req.body.password, salt)
 
     }
 
