@@ -9,23 +9,26 @@ app.set("view engine", "ejs");
 
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({extended: true}));
-const cookieParser = require('cookie-parser');
-app.use(cookieParser());
+const cookieSession = require('cookie-session');
+app.use(cookieSession({
+  name: 'session',
+  keys: ['key1', 'key2']
+}));
 
 const users = require('./data/users.json');
 const urlDatabase = require('./data/urlDatabase.json');
 
 app.get("/urls", (req, res) => {
-  res.render("urls_index", {urls: urlDatabase, users, cookies: req.cookies});
+  res.render("urls_index", {urls: urlDatabase, users, cookies: req.session});
 });
 
 app.get("/urls/new", (req, res) => {
-  res.render("urls_new",{users, cookies: req.cookies});
+  res.render("urls_new",{users, cookies: req.session});
 });
 
 app.get("/urls/:shorturl", (req, res) => {
   console.log(urlDatabase)
-  const templateVars = { users, shortURL: req.params.shorturl, longURL: urlDatabase[req.params.shorturl]['longURL'], cookies: req.cookies};
+  const templateVars = { users, shortURL: req.params.shorturl, longURL: urlDatabase[req.params.shorturl]['longURL'], cookies: req.session};
   res.render("urls_show", templateVars);
 });
 
@@ -40,13 +43,13 @@ app.get('/u/:shorturl', (req, res) => {
 
 app.get('/register', (req, res) => {
 
-  res.render('register',{users, cookies: req.cookies});
+  res.render('register',{users, cookies: req.session});
 
 });
 
 app.get('/login', (req, res) => {
 
-  res.render('login',{users, cookies: req.cookies});
+  res.render('login',{users, cookies: req.session});
 
 });
 
@@ -57,7 +60,7 @@ app.post("/urls", (req, res) => {
   // console.log(shortURL);
   urlDatabase[shortURL] = {};
   urlDatabase[shortURL]['longURL'] = req.body.longURL;
-  urlDatabase[shortURL]['userID'] = req.cookies.user_id;
+  urlDatabase[shortURL]['userID'] = req.session.user_id;
   
   res.redirect(`/urls/${shortURL}`);
   
@@ -101,14 +104,16 @@ app.post('/login', (req, res) => {
   }
 
 
-  res.cookie('user_id', user.id);
+  req.session.user_id = user.id;
+  // res.cookie('user_id', user.id);
   res.redirect('/urls');
 
 });
 
 app.post('/logout', (req, res) => {
 
-  res.clearCookie('user_id');
+  // res.clearCookie('user_id');
+  req.session['user_id'] = null;
 
   res.redirect('/urls');
 
