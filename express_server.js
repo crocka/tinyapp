@@ -135,6 +135,7 @@ app.post("/urls", (req, res) => {
   urlDatabase[shortURL] = {};
   urlDatabase[shortURL]['longURL'] = req.body.longURL;
   urlDatabase[shortURL]['userID'] = req.session.user_id;
+  urlDatabase[shortURL]['date'] = `${new Date().toLocaleString()} (GMT)`;
   urlDatabase[shortURL].visitorStats = {
 
     visitCount: 0,
