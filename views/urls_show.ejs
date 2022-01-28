@@ -36,17 +36,19 @@
 
 
       <div class="card text-center">
-        <div class="card-body">
-          <h5 class="card-title">Total visits: <%= visitorStats.visitCount %>
+        <div class="card-body"
+        
+        >
+          <h5 class="card-title">Total visits: <%= urls[shortURL].visitorStats.visitCount %>
           </h5>
-          <h5 class="card-title">Total visitors: <%= visitorStats.visitorCount %>
+          <h5 class="card-title">Total visitors: <%= urls[shortURL].visitorStats.visitorCount %>
           </h5>
-          <% if(visitorStats.visitCount) {%>
-            <% for(let log of visitorStats.visitorLog) {%>
+          <% if(urls[shortURL].visitorStats.visitCount) {%>
+            <% for(let log of urls[shortURL].visitorStats.visitorLog) {%>
               <h5 class="card-title">Visitor ID: <%= log.visitor_id || 0 %> |=| Visited on: <%= log.time || 0 %>
               </h5>
-              <% } %>
-                <% } %>
+            <% } %>
+          <% } %>
         </div>
       </div>
 

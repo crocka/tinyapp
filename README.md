@@ -4,9 +4,21 @@ TinyApp is a full stack web application built with Node and Express that allows 
 
 ## Final Product
 
-!["screenshot description"](#)
+!["User homepage of a signed-in account"](https://github.com/crocka/tinyapp/blob/master/docs/urls(signed-in).png)
 
-!["screenshot description"](#)
+!["Log-in interface"](https://github.com/crocka/tinyapp/blob/master/docs/urls-login.png)
+
+!["Create new shortened URL"](https://github.com/crocka/tinyapp/blob/master/docs/urls-new.png)
+
+!["Account registration interface"](https://github.com/crocka/tinyapp/blob/master/docs/urls-register.png)
+
+!["Editting the long URL"](https://github.com/crocka/tinyapp/blob/master/docs/urls-shorturl-edit.png)
+
+!["Short URL display and editting interface"](https://github.com/crocka/tinyapp/blob/master/docs/urls-shorturl.png)
+
+!["Visitor statistics at the editting interface"](https://github.com/crocka/tinyapp/blob/master/docs/urls-shorturls-visitorLog.png)
+
+!["User homepage of a logged-out account"](https://github.com/crocka/tinyapp/blob/master/docs/urls.png)
 
 ## Dependencies
 
@@ -16,6 +28,7 @@ TinyApp is a full stack web application built with Node and Express that allows 
 - bcrypt
 - body-parser
 - cookie-session
+- method-override
 
 ## Getting Started
 
