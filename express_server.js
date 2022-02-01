@@ -21,7 +21,23 @@ app.use(cookieSession({
   keys: ['key1', 'key2']
 }));
 
+app.get('/', (req, res) => {
+
+  if (req.session['user_id']) {
+
+    res.redirect('/urls');
+
+  } else {
+
+    res.redirect('/login');
+
+  }
+
+});
+
 app.get("/urls", (req, res) => {
+
+
 
   res.render("urls_index", { urls: urlDatabase, users, cookies: req.session });
 
@@ -29,7 +45,18 @@ app.get("/urls", (req, res) => {
 
 app.get("/urls/new", (req, res) => {
 
-  res.render("urls_new", { urls: urlDatabase, users, cookies: req.session });
+  if (req.session['user_id']) {
+
+    res.render("urls_new", { urls: urlDatabase, users, cookies: req.session });
+
+  } else {
+
+    res.redirect('/login');
+
+  }
+
+
+
 
 });
 
@@ -72,15 +99,15 @@ app.get('/u/:shorturl', (req, res) => {
   //check is this visitor appears in previous visitorLog
   let newVisitor = true;
 
-  for(let visitor of urlDatabase[shortURL].visitorStats.visitorLog) {
+  for (let visitor of urlDatabase[shortURL].visitorStats.visitorLog) {
 
-    if(visitor.visitor_id === req.session.visitor_id) {
+    if (visitor.visitor_id === req.session.visitor_id) {
 
       newVisitor = false;
       break;
 
     }
-    
+
   }
 
   newVisitor ? urlDatabase[shortURL].visitorStats.visitorCount += 1 : '';
@@ -100,13 +127,31 @@ app.get('/u/:shorturl', (req, res) => {
 
 app.get('/register', (req, res) => {
 
-  res.render('register', { users, cookies: req.session });
+  if (req.session['user_id']) {
+
+    res.redirect('/urls');
+
+  } else {
+
+    res.render('register', { users, cookies: req.session });
+
+  }
 
 });
 
 app.get('/login', (req, res) => {
 
-  res.render('login', { users, cookies: req.session });
+  if (req.session['user_id']) {
+
+    res.redirect('/urls');
+
+  } else {
+
+    res.render('login', { users, cookies: req.session });
+
+  }
+
+
 
 });
 
@@ -173,7 +218,7 @@ app.post('/login', (req, res) => {
 
 app.post('/logout', (req, res) => {
 
-  req.session['user_id'] = null;
+  req.session = null;
 
   res.redirect('/urls');
 
@@ -199,9 +244,9 @@ app.post('/register', (req, res) => {
 
   }
 
-  if (newEmail) {
+  let newId = generateRandomId();
 
-    let newId = generateRandomId();
+  if (newEmail) {
 
     users[newId] = {
 
@@ -213,7 +258,8 @@ app.post('/register', (req, res) => {
 
   }
 
-  res.redirect('login');
+  req.session.user_id = newId;
+  res.redirect('/urls');
 
 });
 
