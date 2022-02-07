@@ -133,7 +133,7 @@ app.get('/u/:shorturl', (req, res) => {
   });
 
   //redirect to the long url
-  res.redirect(`https://${urlDatabase[shortURL]['longURL']}`);
+  res.redirect(302, `${urlDatabase[shortURL]['longURL']}`);
 
 });
 
